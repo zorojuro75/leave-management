@@ -30,7 +30,7 @@ type LeaveApplication = {
   contact_info: string;
   approved: boolean;
   email: string;
-  image_ulr: string;
+  image_url: string;
 };
 
 const ManagerPage: React.FC = () => {
@@ -142,33 +142,30 @@ const ManagerPage: React.FC = () => {
             {applications.length === 0 ? (
               <p>No pending applications.</p>
             ) : (
-              <Table className="max-w-7xl mx-auto border p-4 rounded shadow">
+              <Table className="max-w-7xl mx-auto w-fit border p-4 rounded shadow">
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="sm:w-[200px]">Employee ID</TableHead>
-                    <TableHead className="sm:w-[200px]">Start Date</TableHead>
-                    <TableHead className="sm:w-[200px]">End Date</TableHead>
+                    <TableHead className="sm:w-[200px]">Employee</TableHead>
+                    <TableHead className="sm:w-[200px]">Name</TableHead>
                     <TableHead className="sm:w-[200px]">Details</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {applications.map((application) => (
-                    <TableRow key={application.id} className="mb-4 text-center">
+                    <TableRow key={application.id}>
                       <TableCell className="sm:w-[200px]">
-                        {application.employee_id}
+                        {application.name}
                       </TableCell>
                       <TableCell className="sm:w-[200px]">
-                        {new Date(application.start_date).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell className="sm:w-[200px]">
-                        {new Date(application.end_date).toLocaleDateString()}
+                        <img src={application.image_url} alt="" className="sm:w-16 sm:h-16 w-12 h-12 rounded-full" />
+                        
                       </TableCell>
                       <TableCell>
                         <Dialog>
                           <DialogTrigger
                             onClick={() => setSelectedApplication(application)}
                           >
-                            View
+                            <div className="border rounded px-3 py-2 shadow-sm bg-primary text-primary-foreground hover:bg-primary/90">View</div>
                           </DialogTrigger>
                           <DialogContent>
                             <Details
