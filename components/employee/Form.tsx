@@ -81,6 +81,8 @@ const Form: React.FC = () => {
       manager_approval: false,
       hr_approval: false,
       email: session?.user.email,
+      image_url : session?.user.image_url,
+      isRejected: false,
     });
 
     if (error) {

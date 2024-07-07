@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 import {
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 type LeaveApplication = {
   id: number;
@@ -25,13 +25,24 @@ type LeaveApplication = {
 type Props = {
   application: LeaveApplication | null;
   onApprove: (id: number) => void;
+  onReject: (id: number) => void;
   onClose: () => void;
 };
 
-const Details: React.FC<Props> = ({ application, onApprove, onClose }) => {
+const Details: React.FC<Props> = ({
+  application,
+  onApprove,
+  onReject,
+  onClose,
+}) => {
   const handleApprove = async () => {
     if (application) {
       onApprove(application.id);
+    }
+  };
+  const handleReject = async () => {
+    if (application) {
+      onReject(application.id);
     }
   };
 
@@ -61,11 +72,11 @@ const Details: React.FC<Props> = ({ application, onApprove, onClose }) => {
                 <strong>Leave Type:</strong> {application.leave_type}
               </p>
               <p>
-                <strong>From:</strong>{' '}
+                <strong>From:</strong>{" "}
                 {new Date(application.start_date).toLocaleDateString()}
               </p>
               <p>
-                <strong>To:</strong>{' '}
+                <strong>To:</strong>{" "}
                 {new Date(application.end_date).toLocaleDateString()}
               </p>
               <p>
@@ -78,7 +89,10 @@ const Details: React.FC<Props> = ({ application, onApprove, onClose }) => {
                 <Button className="border-0" onClick={handleApprove}>
                   Approve
                 </Button>
-                <Button className="bg-red-500 hover:bg-red-600 border-0">
+                <Button
+                  className="bg-red-500 hover:bg-red-600 border-0"
+                  onClick={handleReject}
+                >
                   Reject
                 </Button>
               </div>

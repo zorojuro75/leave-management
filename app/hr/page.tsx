@@ -82,6 +82,53 @@ const HRPage: React.FC = () => {
     setSelectedApplication(null);
   };
 
+  const handleReject = async (id: number) => {
+    const { error } = await supabase
+      .from("leave_applications")
+      .update({ isRejected: true })
+      .eq("id", id);
+
+    if (error) {
+      console.error("Error updating application:", error);
+    } else {
+      setApplications(applications.filter((app) => app.id !== id));
+      closeDialog();
+      const sender = {
+        name: session?.user?.name,
+        address: session?.user?.email ?? "",
+      };
+      const { data: applicationData, error: applicationError } = await supabase
+        .from("leave_applications")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (applicationError || !applicationData) {
+        console.error(
+          "Error fetching application data:",
+          applicationError || "No data found"
+        );
+        return;
+      }
+      const receiver = {
+        name: applicationData.name,
+        address: applicationData.email,
+      };
+      fetch("/api/sendMail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sender,
+          receiver,
+          subject: "Leave Application Info",
+          message: `your application has been rejected.`,
+        }),
+      }).then((response) => response.json());
+      toast.success("Leave application rejected successfully!");
+    }
+  };
   const handleApprove = async (id: number) => {
     const { error } = await supabase
       .from("leave_applications")
@@ -199,7 +246,7 @@ const HRPage: React.FC = () => {
                         {application.name}
                       </TableCell>
                       <TableCell className="sm:w-[200px]">
-                        <img src={application.image_url} alt="" className="sm:w-16 sm:h-16 w-12 h-12 rounded-full" />
+                        <img src={application.image_url} alt="image" className="sm:w-16 sm:h-16 w-12 h-12 rounded-full" />
                         
                       </TableCell>
                       <TableCell>
@@ -213,6 +260,7 @@ const HRPage: React.FC = () => {
                             <Details
                               application={selectedApplication}
                               onApprove={handleApprove}
+                              onReject={handleReject}
                               onClose={closeDialog}
                             />
                           </DialogContent>
