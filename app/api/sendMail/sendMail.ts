@@ -1,14 +1,13 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
 import nodemailer from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
 
 const transport = nodemailer.createTransport({
-    service: "gmail",
-    host: "smtp.gmail.com",
+    service: process.env.MAIL_SERVICE,
+    host: process.env.MAIL_HOST,
     port: 587,
     auth: {
-      user: "anikbanna6@gmail.com",
-      pass: "shizxixjrlijowrh"
+      user: process.env.MAIL_USER,
+      pass: process.env.MAIL_PASS
     }
   });
 
