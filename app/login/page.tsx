@@ -55,17 +55,17 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center p-5">
-      <Card className="sm:w-[400px] w-[320px] mx-auto p-4 flex flex-col items-center">
-        <h1 className="text-xl mb-4 text-center">
-          Wecome to Leave Management System
+    <div className="h-screen flex items-center justify-center p-5 flex-1 bg-[url('/images/login.jpg')] bg-cover">
+      <Card className="sm:w-[500px] w-[320px] mx-auto p-4 flex flex-col items-center backdrop-blur-sm bg-black bg-opacity-40 text-white border-none shadow-2xl">
+        <h1 className="sm:text-3xl text-xl mb-4 text-center">
+        Welcome To Employee information system
         </h1>
         <form onSubmit={handleSubmit} className="w-full max-w-sm flex flex-col">
           {error && <p className="text-red-500">{error}</p>}
           <div className="mb-4">
             <label
               htmlFor="username"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-white"
             >
               Username
             </label>
@@ -73,6 +73,7 @@ const Login = () => {
               id="username"
               type="text"
               value={username}
+              className="bg-transparent"
               onChange={(e) => setUsername(e.target.value)}
               required
             />
@@ -80,7 +81,7 @@ const Login = () => {
           <div className="mb-4">
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-white"
             >
               Password
             </label>
@@ -88,17 +89,18 @@ const Login = () => {
               id="password"
               type="password"
               value={password}
+              className="bg-transparent"
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
-          <Button type="submit">Login</Button>
+          <Button type="submit" className="bg-[#00a990] hover:bg-[#007564]">Login</Button>
         </form>
         <Separator className="my-4" />
         <div>
           Do not have an Account?{" "}
           <Link href={"/signin"} className="text-emerald-500">
-            Sign In
+            Sign Up
           </Link>
         </div>
       </Card>

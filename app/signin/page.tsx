@@ -105,8 +105,8 @@ const Signup = () => {
   };
 
   return (
-    <div className="sm:h-screen flex items-center justify-center p-5">
-      <Card className="sm:w-[800px] w-[320px] mx-auto p-4 flex flex-col items-center">
+    <div className="sm:h-screen flex items-center justify-center p-5 bg-[url('/images/login.jpg')] bg-cover">
+      <Card className="sm:w-[800px] w-[320px] mx-auto p-4 flex flex-col items-center backdrop-blur-sm bg-black bg-opacity-40 text-white border-none shadow-2xl">
         <h1 className="text-2xl mb-4">Create new account</h1>
         <form
           onSubmit={handleSubmit}
@@ -116,7 +116,7 @@ const Signup = () => {
           <div className="mb-4">
             <label
               htmlFor="firstName"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-white"
             >
               First Name
             </label>
@@ -124,6 +124,7 @@ const Signup = () => {
               id="firstName"
               type="text"
               value={firstName}
+              className="bg-transparent"
               onChange={(e) => setFirstName(e.target.value)}
               required
             />
@@ -131,7 +132,7 @@ const Signup = () => {
           <div className="mb-4">
             <label
               htmlFor="lastName"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-white"
             >
               Last Name
             </label>
@@ -139,6 +140,7 @@ const Signup = () => {
               id="lastName"
               type="text"
               value={lastName}
+              className="bg-transparent"
               onChange={(e) => setLastName(e.target.value)}
               required
             />
@@ -146,7 +148,7 @@ const Signup = () => {
           <div className="mb-4">
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-white"
             >
               Email
             </label>
@@ -154,6 +156,7 @@ const Signup = () => {
               id="email"
               type="email"
               value={email}
+              className="bg-transparent"
               onChange={(e) => setEmail(e.target.value)}
               required
             />
@@ -161,7 +164,7 @@ const Signup = () => {
           <div className="mb-4">
             <label
               htmlFor="username"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-white"
             >
               Username
             </label>
@@ -169,6 +172,7 @@ const Signup = () => {
               id="username"
               type="text"
               value={username}
+              className="bg-transparent"
               onChange={(e) => setUsername(e.target.value)}
               required
             />
@@ -176,7 +180,7 @@ const Signup = () => {
           <div className="mb-4">
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-white"
             >
               Password
             </label>
@@ -184,6 +188,7 @@ const Signup = () => {
               id="password"
               type="password"
               value={password}
+              className="bg-transparent"
               onChange={(e) => setPassword(e.target.value)}
               required
             />
@@ -191,13 +196,14 @@ const Signup = () => {
           <div className="mb-4">
             <label
               htmlFor="image"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-white"
             >
               Image Upload
             </label>
             <Input
               id="image"
               type="file"
+              className="bg-transparent"
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) setImageFile(file);
@@ -208,13 +214,13 @@ const Signup = () => {
           <div className="mb-4">
             <label
               htmlFor="role"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-white"
             >
               Role
             </label>
             <Select onValueChange={setRole}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select a role" />
+              <SelectTrigger className="bg-transparent">
+                <SelectValue className=" text-black" placeholder="Select a role" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="HR">HR</SelectItem>
@@ -223,7 +229,7 @@ const Signup = () => {
               </SelectContent>
             </Select>
           </div>
-          <Button type="submit" className="sm:col-span-2 sm:w-[100px]">
+          <Button type="submit" className="sm:col-span-2 sm:w-[100px] bg-[#00a990] hover:bg-[#007564]">
             Signup
           </Button>
         </form>

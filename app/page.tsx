@@ -2,19 +2,11 @@
 import React, { useEffect, useState } from "react";
 import Form from "@/components/employee/Form";
 import Topbar from "@/components/Topbar/Topbar";
-import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { supabase } from "@/utils/supabaseClient";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogClose,
-} from "@/components/ui/dialog";
 import { useRouter } from "next/navigation";
+import LeaveCard from "@/components/employee/LeaveCard";
+import LeaveHistory from "@/components/employee/LeaveHistory";
 
 type LeaveBalance = {
   id: number;
@@ -28,12 +20,11 @@ type LeaveBalance = {
 export default function Home() {
   const { data: session } = useSession();
   const [leaveBalance, setLeaveBalance] = useState<LeaveBalance[] | null>(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
       console.log(session);
-      
+
       if (!session) {
         return;
       }
@@ -47,57 +38,50 @@ export default function Home() {
       }
     };
 
-    fetchData();
-  }, [session, router, status]);
-  const handleButtonClick = async () => {
-    if (session && session.user && session.user.email) {
-      const email = session.user.email;
-      const { data, error } = await supabase
-        .from("leave_balance")
-        .select("*")
-        .eq("user_email", email);
+    const fetchLeave = async () => {
+      if (session && session.user && session.user.email) {
+        const email = session.user.email;
+        const { data, error } = await supabase
+          .from("leave_balance")
+          .select("*")
+          .eq("user_email", email);
 
-      if (error) {
-        console.error("Error fetching leave balance:", error);
-        return;
+        if (error) {
+          console.error("Error fetching leave balance:", error);
+          return;
+        }
+
+        setLeaveBalance(data);
+      } else {
+        console.error("No session found.");
       }
-
-      setLeaveBalance(data);
-      setIsDialogOpen(true); // Open the dialog
-    } else {
-      console.error("No session found.");
-    }
-  };
+    };
+    fetchData();
+    fetchLeave();
+  }, [session, router]);
 
   return (
-    <div className="flex flex-col gap-5 items-center">
+    <div>
       <Topbar />
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogTrigger asChild>
-          <Button onClick={handleButtonClick}>Tap to see Leave Balance</Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Leave Balance</DialogTitle>
-            <DialogDescription>
-              {leaveBalance ? (
-                leaveBalance.map((leave) => (
-                  <div key={leave.id}>
-                    <p>Type: {leave.leave_type}</p>
-                    <p>Remaining Days: {leave.remaining_days}</p>
-                  </div>
-                ))
-              ) : (
-                <p>No leave balance data available.</p>
-              )}
-            </DialogDescription>
-          </DialogHeader>
-          <DialogClose asChild>
-            <Button>Close</Button>
-          </DialogClose>
-        </DialogContent>
-      </Dialog>
-      <Form />
+      <div className="max-w-[100rem] xl:mx-auto mx-10 flex flex-col gap-10 py-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-6 gap-5 flex-1">
+          {leaveBalance &&
+            leaveBalance.map((leave) => (
+              <LeaveCard
+                key={leave.id}
+                leaveType={leave.leave_type}
+                remainingDays={leave.remaining_days}
+                className="flex gap-5 items-center bg-[#f2faf9]"
+              />
+            ))}
+        </div>
+        <div className="flex gap-10">
+          <Form />
+          <div className="flex-1 hidden md:block">
+            <LeaveHistory email={session?.user.email!}/>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

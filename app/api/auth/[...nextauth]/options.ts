@@ -55,7 +55,7 @@ export const options: NextAuthOptions = {
           return user;
         } catch (error) {
           console.error("Authorization error:", error);
-          return null; // Return null to indicate authorization failure
+          return null;
         }
       },
       
@@ -95,6 +95,6 @@ export const options: NextAuthOptions = {
   
   pages: {
     signIn: '/login',
-    newUser: "/signin"
+    newUser: "/signup"
   }
 };

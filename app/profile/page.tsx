@@ -117,21 +117,117 @@ const ProfileEdit = () => {
           <h1 className="text-2xl mb-4">Edit Profile</h1>
           <form
             onSubmit={handleSubmit}
-            className="w-full grid sm:grid-cols-2 gap-5"
+            className="w-full grid sm:grid-cols-3 gap-5"
           >
             {error && <p className="text-red-500 mb-4">{error}</p>}
-            <div className="mb-4 flex flex-col items-center sm:col-span-2">
-              <Avatar className="w-36 h-36 mb-2">
+            <div className="sm:col-span-2 grid sm:grid-cols-2 gap-5">
+              <div className="mb-4">
+                <Label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Email
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={profile.email}
+                  onChange={(e) =>
+                    setProfile({ ...profile, email: e.target.value })
+                  }
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <Label
+                  htmlFor="username"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Username
+                </Label>
+                <Input
+                  id="username"
+                  type="text"
+                  value={profile.username}
+                  onChange={(e) =>
+                    setProfile({ ...profile, username: e.target.value })
+                  }
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <Label
+                  htmlFor="first_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  First Name
+                </Label>
+                <Input
+                  id="first_name"
+                  type="text"
+                  value={profile.first_name}
+                  onChange={(e) =>
+                    setProfile({ ...profile, first_name: e.target.value })
+                  }
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <Label
+                  htmlFor="last_name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Last Name
+                </Label>
+                <Input
+                  id="last_name"
+                  type="text"
+                  value={profile.last_name}
+                  onChange={(e) =>
+                    setProfile({ ...profile, last_name: e.target.value })
+                  }
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <Label
+                  htmlFor="role"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Role
+                </Label>
+                <Input
+                  id="role"
+                  type="text"
+                  value={profile.role}
+                  onChange={(e) =>
+                    setProfile({ ...profile, role: e.target.value })
+                  }
+                  disabled
+                />
+              </div>
+              <div className="mb-4">
+                <Label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Password
+                </Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Leave blank to keep current password"
+                />
+              </div>
+            </div>
+            <div className="mb-4 flex flex-col items-center justify-center">
+              <Avatar className="w-40 h-40 mb-2">
                 <AvatarImage src={profile.image_url} alt={profile.username} />
                 <AvatarFallback>{profile.username.charAt(0)}</AvatarFallback>
               </Avatar>
               <div className="mb-4">
-                <Label
-                  htmlFor="image"
-                  className="block text-sm text-center font-medium text-gray-700"
-                >
-                  Change profile picture
-                </Label>
                 <Input
                   id="image"
                   type="file"
@@ -142,111 +238,11 @@ const ProfileEdit = () => {
                 />
               </div>
             </div>
-            <div className="mb-4">
-              <Label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                value={profile.email}
-                onChange={(e) =>
-                  setProfile({ ...profile, email: e.target.value })
-                }
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <Label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Username
-              </Label>
-              <Input
-                id="username"
-                type="text"
-                value={profile.username}
-                onChange={(e) =>
-                  setProfile({ ...profile, username: e.target.value })
-                }
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <Label
-                htmlFor="first_name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                First Name
-              </Label>
-              <Input
-                id="first_name"
-                type="text"
-                value={profile.first_name}
-                onChange={(e) =>
-                  setProfile({ ...profile, first_name: e.target.value })
-                }
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <Label
-                htmlFor="last_name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Last Name
-              </Label>
-              <Input
-                id="last_name"
-                type="text"
-                value={profile.last_name}
-                onChange={(e) =>
-                  setProfile({ ...profile, last_name: e.target.value })
-                }
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <Label
-                htmlFor="role"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Role
-              </Label>
-              <Input
-                id="role"
-                type="text"
-                value={profile.role}
-                onChange={(e) =>
-                  setProfile({ ...profile, role: e.target.value })
-                }
-                disabled
-              />
-            </div>
-            <div className="mb-4">
-              <Label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </Label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Leave blank to keep current password"
-              />
-            </div>
-            <div className="sm:col-span-2 flex flex-col items-end">
-              <Button type="submit" className="sm:w-[300px]">
-                Save Changes
-              </Button>
-            </div>
+            <div className="sm:col-span-3">
+                <Button type="submit">
+                  Save Changes
+                </Button>
+              </div>
           </form>
         </div>
       </div>

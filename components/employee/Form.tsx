@@ -3,7 +3,7 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { supabase } from "../../utils/supabaseClient";
 import { useSession } from "next-auth/react";
-
+import { FaWpforms } from "react-icons/fa6";
 import {
   Card,
   CardHeader,
@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
 import {
   Select,
   SelectTrigger,
@@ -33,16 +34,22 @@ import {
 } from "@/components/ui/popover";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { CiCalendarDate } from "react-icons/ci";
+import { TbBrandReason } from "react-icons/tb";
+import { LuFileType } from "react-icons/lu";
+import { MdOutlinePermIdentity } from "react-icons/md";
+import { IoKeypadOutline } from "react-icons/io5";
+import { FaRankingStar } from "react-icons/fa6";
+import { BsBuildingCheck } from "react-icons/bs";
 
 type FormData = {
   name: string;
-  employeeId: string;
+  employeeId: number;
   department: string;
   position: string;
   reason: string;
   leaveType: string;
   dateRange: { startDate: string; endDate: string };
-  contactInfo: string;
 };
 const leaveTypes = [
   "Annual leave",
@@ -77,11 +84,10 @@ const Form: React.FC = () => {
       leave_type: data.leaveType,
       start_date: startDateString,
       end_date: endDateString,
-      contact_info: data.contactInfo,
       manager_approval: false,
       hr_approval: false,
       email: session?.user.email,
-      image_url : session?.user.image_url,
+      image_url: session?.user.image_url,
       isRejected: false,
     });
 
@@ -90,7 +96,7 @@ const Form: React.FC = () => {
       return;
     }
     const sender = {
-      name: data.name,
+      name: session?.user.name,
       address: session?.user?.email ?? "",
     };
     const { data: managers, error: managerError } = await supabase
@@ -130,145 +136,191 @@ const Form: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center sm:p-5 sm:w-[500px] w-[320px]">
+    <div className="sm:w-[70%] w-full flex h-fit">
       <ToastContainer />
-      <Card className="w-full max-w-lg mx-auto rounded-none sm:rounded">
-        <CardHeader>
-          <CardTitle className="text-center text-2xl">
-            Leave Application Form
-          </CardTitle>
-        </CardHeader>
+      <Card className="w-full rounded-lg bg-blue-50">
+        <h1 className="px-[24px] py-5 text-[18px] sm:text-[24px] flex gap-2 items-center">
+          <FaWpforms />
+          Leave Application Form
+        </h1>
         <CardContent>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-5"
           >
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="name">Name</Label>
-              <Input
-                type="text"
-                id="name"
-                {...register("name", { required: true })}
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="employeeId">Employee ID</Label>
-              <Input
-                type="text"
-                id="employeeId"
-                {...register("employeeId", { required: true })}
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="department">Unit/Department</Label>
-              <Input
-                type="text"
-                id="department"
-                {...register("department", { required: true })}
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="position">Position</Label>
-              <Input
-                type="text"
-                id="position"
-                {...register("position", { required: true })}
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="reason">Reason for Leaving</Label>
-              <Input
-                type="text"
-                id="reason"
-                {...register("reason", { required: true })}
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="leaveType">Leave Type</Label>
-              <Select onValueChange={handleLeaveTypeChange} defaultValue="">
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a leave type" />
-                </SelectTrigger>
-                <SelectContent>
-                  {leaveTypes.map((leaveType, index) => (
-                    <SelectItem value={leaveType} key={index}>
-                      {leaveType}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="startDate">Start Date</Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "justify-start text-left font-normal",
-                      !startDate && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {startDate ? (
-                      format(startDate, "PPP")
-                    ) : (
-                      <span>Pick start date</span>
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={startDate}
-                    onSelect={setStartDate}
-                    initialFocus
+            <div className="flex gap-10">
+              <div className="flex-1 grid sm:grid-cols-2 gap-5 col-span-2 sm:col-span-1">
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="name" className="flex gap-2 items-center">
+                    <MdOutlinePermIdentity size={18} />
+                    Full Name
+                  </Label>
+                  <Input
+                    type="text"
+                    id="name"
+                    className="bg-blue-100"
+                    {...register("name", { required: true })}
                   />
-                </PopoverContent>
-              </Popover>
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="endDate">End Date</Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "justify-start text-left font-normal",
-                      !endDate && "text-muted-foreground"
-                    )}
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Label
+                    htmlFor="employeeId"
+                    className="flex gap-2 items-center"
                   >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {endDate ? (
-                      format(endDate, "PPP")
-                    ) : (
-                      <span>Pick end date</span>
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={endDate}
-                    onSelect={setEndDate}
-                    initialFocus
+                    <IoKeypadOutline size={18} />
+                    Employee ID
+                  </Label>
+                  <Input
+                    type="text"
+                    id="employeeId"
+                    className="bg-blue-100"
+                    {...register("employeeId", { required: true })}
                   />
-                </PopoverContent>
-              </Popover>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Label
+                    htmlFor="department"
+                    className="flex gap-2 items-center"
+                  >
+                    <BsBuildingCheck size={18} />
+                    Department
+                  </Label>
+                  <Input
+                    type="text"
+                    id="department"
+                    className="bg-blue-100"
+                    {...register("department", { required: true })}
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="position" className="flex gap-2 items-center">
+                    <FaRankingStar size={18} />
+                    Position
+                  </Label>
+                  <Input
+                    type="text"
+                    id="position"
+                    className="bg-blue-100"
+                    {...register("position", { required: true })}
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="reason" className="flex gap-2 items-center">
+                    <TbBrandReason size={18} />
+                    Reason for Leaving
+                  </Label>
+                  <Input
+                    type="text"
+                    id="reason"
+                    className="bg-blue-100"
+                    {...register("reason", { required: true })}
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Label
+                    htmlFor="leaveType"
+                    className="flex gap-2 items-center"
+                  >
+                    <LuFileType size={18} />
+                    Leave Type
+                  </Label>
+                  <Select onValueChange={handleLeaveTypeChange} defaultValue="">
+                    <SelectTrigger className="bg-blue-100">
+                      <SelectValue placeholder="Select a leave type" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-blue-100">
+                      {leaveTypes.map((leaveType, index) => (
+                        <SelectItem value={leaveType} key={index}>
+                          {leaveType}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Label
+                    htmlFor="startDate"
+                    className="flex gap-2 items-center"
+                  >
+                    <CiCalendarDate size={18} />
+                    Start Date
+                  </Label>
+                  <Popover>
+                    <PopoverTrigger asChild className="bg-blue-100">
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "justify-start text-left font-normal",
+                          !startDate && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {startDate ? (
+                          format(startDate, "PPP")
+                        ) : (
+                          <span>Pick start date</span>
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <Calendar
+                        mode="single"
+                        selected={startDate}
+                        onSelect={setStartDate}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="endDate" className="flex gap-2 items-center">
+                    <CiCalendarDate size={18} />
+                    End Date
+                  </Label>
+                  <Popover>
+                    <PopoverTrigger asChild className="bg-blue-100">
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "justify-start text-left font-normal",
+                          !endDate && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {endDate ? (
+                          format(endDate, "PPP")
+                        ) : (
+                          <span>Pick end date</span>
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <Calendar
+                        mode="single"
+                        selected={endDate}
+                        onSelect={setEndDate}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              </div>
+              <div className="sm:flex h-min hidden">
+                <Calendar
+                  mode="range"
+                  selected={{ from: startDate, to: endDate }}
+                  className="bg-blue-200 rounded-lg sm:block hidden p-5"
+                />
+              </div>
             </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="contactInfo">Contact Information</Label>
-              <Input
-                type="text"
-                id="contactInfo"
-                {...register("contactInfo", { required: true })}
-              />
-            </div>
-            <CardFooter>
-              <Button type="submit" className="w-full">
+            <div className="flex justify-end">
+              <Button
+                type="submit"
+                className=" bg-blue-300 hover:bg-[blue-300 hover:shadow-lg hover:shadow-blue-200"
+              >
                 Submit
               </Button>
-            </CardFooter>
+            </div>
           </form>
         </CardContent>
       </Card>

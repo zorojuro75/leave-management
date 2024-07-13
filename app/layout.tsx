@@ -1,9 +1,9 @@
-"use client"
+"use client";
 import { SessionProvider } from "next-auth/react";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 
 export default function RootLayout({
   children,
@@ -12,10 +12,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div className="h-screen flex">
+      <head>
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+        <title>Leave Management</title>
+      </head>
+      <body className={poppins.className}>
+        <div className="flex bg-[#FBFDFD]">
           <div className="flex-1">
-            <div><SessionProvider>{children}</SessionProvider></div>
+            <SessionProvider>{children}</SessionProvider>
           </div>
         </div>
       </body>
