@@ -148,12 +148,9 @@ const ManagerPage: React.FC = () => {
         .select("first_name, email")
         .eq("role", "HR")
         .limit(1);
-  
+
       if (HRError || !HR || HR.length === 0) {
-        console.error(
-          "Error fetching HR:",
-          HRError || "No HR found"
-        );
+        console.error("Error fetching HR:", HRError || "No HR found");
         return;
       }
       const receiver = {
@@ -180,7 +177,7 @@ const ManagerPage: React.FC = () => {
     <div>
       <Topbar />
       <ToastContainer />
-      <div className="p-5">
+      <div className="max-w-[100rem] xl:mx-auto mx-10 flex flex-col gap-10 py-5">
         <h1 className="text-xl font-semibold text-center py-2">
           Leave Application List
         </h1>
@@ -191,31 +188,40 @@ const ManagerPage: React.FC = () => {
             {applications.length === 0 ? (
               <p>No pending applications.</p>
             ) : (
-              <Table className="max-w-7xl mx-auto w-fit border p-4 rounded shadow">
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="sm:w-[200px]">Employee</TableHead>
-                    <TableHead className="sm:w-[200px]">Name</TableHead>
-                    <TableHead className="sm:w-[200px]">Details</TableHead>
+              <Table className="border p-2 rounded flex flex-col">
+                <TableHeader className="flex">
+                  <TableRow className="flex flex-1 justify-between items-center">
+                    <TableHead className="w-[100px]  text-wrap">Name</TableHead>
+                    <TableHead>Image</TableHead>
+                    <TableHead>Details</TableHead>
                   </TableRow>
                 </TableHeader>
-                <TableBody>
+                <TableBody className="flex">
                   {applications.map((application) => (
-                    <TableRow key={application.id}>
-                      <TableCell className="sm:w-[200px]">
+                    <TableRow
+                      key={application.id}
+                      className="flex flex-1 justify-between items-center"
+                    >
+                      <TableCell className="w-[100px] text-wrap">
                         {application.name}
                       </TableCell>
-                      <TableCell className="sm:w-[200px]">
-                        <img src={application.image_url} alt="image" className="sm:w-16 sm:h-16 w-12 h-12 rounded-full" />
+                      <TableCell>
+                        <img
+                          src={application.image_url}
+                          alt="image"
+                          className="sm:w-16 sm:h-16 w-12 h-12 rounded-full"
+                        />
                       </TableCell>
                       <TableCell>
                         <Dialog>
                           <DialogTrigger
                             onClick={() => setSelectedApplication(application)}
                           >
-                            <div className="border rounded px-3 py-2 shadow-sm bg-primary text-primary-foreground hover:bg-primary/90">View</div>
+                            <div className="border rounded px-3 py-2 shadow-sm bg-primary text-primary-foreground hover:bg-primary/90">
+                              View
+                            </div>
                           </DialogTrigger>
-                          <DialogContent>
+                          <DialogContent className="mx-5">
                             <Details
                               application={selectedApplication}
                               onApprove={handleApprove}
@@ -229,6 +235,7 @@ const ManagerPage: React.FC = () => {
                   ))}
                 </TableBody>
               </Table>
+              // <div>Hello</div>
             )}
           </div>
         )}

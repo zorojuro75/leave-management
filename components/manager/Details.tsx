@@ -52,7 +52,7 @@ const Details: React.FC<Props> = ({
         <DialogTitle>Leave Application Details</DialogTitle>
         <DialogDescription>
           {application && (
-            <div className="mt-4">
+            <div className="mt-4 flex flex-col items-start">
               <p>
                 <strong>Name:</strong> {application.name}
               </p>
