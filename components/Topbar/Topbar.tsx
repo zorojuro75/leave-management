@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
@@ -45,11 +46,11 @@ const Topbar = () => {
           <Link href={"/profile"} className="hover:bg-slate-100 px-2 py-1">
             Profile
           </Link>
-          <Link href={"/"} className="hover:bg-slate-100 px-2 py-1">
+          <Link href={"/employee"} className="hover:bg-slate-100 px-2 py-1">
             Employee
           </Link>
-          <Link href={"/"} className="hover:bg-slate-100 px-2 py-1">
-            Company
+          <Link href={"/branches"} className="hover:bg-slate-100 px-2 py-1">
+            Branches
           </Link>
           <Button onClick={handleLogoutClick}>Logout</Button>
         </div>
