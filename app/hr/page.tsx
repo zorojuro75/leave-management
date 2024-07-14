@@ -177,7 +177,7 @@ const HRPage: React.FC = () => {
       // Update leave balance for the employee
       const { error: balanceError } = await supabase
         .from("leave_balance")
-        .update({ remaining_days: leave?.remaining_days - numberOfDays })
+        .update({ remaining_days: leave?.remaining_days - (numberOfDays+1) })
         .eq("user_email", employee_email)
         .eq("leave_type", leave_type);
 

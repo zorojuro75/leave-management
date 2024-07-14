@@ -188,11 +188,11 @@ const ManagerPage: React.FC = () => {
             {applications.length === 0 ? (
               <p>No pending applications.</p>
             ) : (
-              <Table className="border p-2 rounded flex flex-col">
+              <Table className="mx-auto max-w-xl border p-2 rounded flex flex-col">
                 <TableHeader className="flex">
                   <TableRow className="flex flex-1 justify-between items-center">
-                    <TableHead className="w-[100px]  text-wrap">Name</TableHead>
                     <TableHead>Image</TableHead>
+                    <TableHead className="w-[100px]  text-wrap">Name</TableHead>
                     <TableHead>Details</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -202,16 +202,17 @@ const ManagerPage: React.FC = () => {
                       key={application.id}
                       className="flex flex-1 justify-between items-center"
                     >
-                      <TableCell className="w-[100px] text-wrap">
-                        {application.name}
-                      </TableCell>
-                      <TableCell>
+                       <TableCell>
                         <img
                           src={application.image_url}
                           alt="image"
                           className="sm:w-16 sm:h-16 w-12 h-12 rounded-full"
                         />
                       </TableCell>
+                      <TableCell className="w-[100px] text-wrap">
+                        {application.name}
+                      </TableCell>
+                     
                       <TableCell>
                         <Dialog>
                           <DialogTrigger

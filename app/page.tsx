@@ -71,7 +71,7 @@ export default function Home() {
                 key={leave.id}
                 leaveType={leave.leave_type}
                 remainingDays={leave.remaining_days}
-                className="flex gap-5 items-center bg-[#f2faf9]"
+                className="flex gap-5 items-center bg-blue-50"
               />
             ))}
         </div>
